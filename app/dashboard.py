@@ -35,6 +35,15 @@ def detect_serial_port():
     for p in ports:
         if "Arduino" in p.description or "USB" in p.description:
             return p.device
+    # 2. Si no se detecta, probar puertos típicos de Docker Desktop en Windows
+    for i in range(1, 5):
+        dev = f"/dev/ttyS{i}"
+        try:
+            s = serial.Serial(dev)
+            s.close()
+            return dev
+        except Exception:
+            continue
     return None
 
 # 📈 Inicialización
@@ -42,13 +51,17 @@ st.set_page_config(page_title="Monitor de Temperatura NTC", layout="wide")
 st.markdown("<h1 style='text-align: center; color: #007ACC;'>🌡️ Dashboard de Temperatura NTC - Arduino + Streamlit</h1>", unsafe_allow_html=True)
 
 # 📦 Inicializar conexión Serial
+
 port = detect_serial_port()
 if not port:
     st.error("⚠️ No se detectó un puerto Arduino. Conéctalo y reinicia la app.")
     st.stop()
-
-ser = serial.Serial(port, 9600, timeout=1)
-time.sleep(2)  # Esperar a que el puerto se estabilice
+try:
+    ser = serial.Serial(port, 9600, timeout=1)
+    time.sleep(2)  # Esperar a que el puerto se estabilice
+except Exception as e:
+    st.error(f"⚠️ No se pudo abrir el puerto '{port}'. Verifica que el Arduino esté conectado y que ningún otro programa esté usando el puerto.\n\nDetalle: {e}")
+    st.stop()
 
 # 🧪 Variables de almacenamiento
 data = []

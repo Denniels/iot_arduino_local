@@ -1,25 +1,43 @@
 # start.ps1 - Script PowerShell para Windows
 # Detecta el puerto COM del Arduino y lanza el contenedor Docker
 
-# Buscar el primer puerto COM disponible (ajusta el filtro si tienes más de un Arduino)
-$port = Get-WmiObject Win32_SerialPort | Where-Object { $_.DeviceID -like 'COM*' } | Select-Object -First 1 -ExpandProperty DeviceID
+# Buscar todos los puertos COM disponibles
+$ports = Get-WmiObject Win32_SerialPort | Select-Object DeviceID, Description
+
+
+# Mostrar todos los puertos encontrados (si hay)
+if ($ports) {
+    Write-Host "Puertos COM detectados:"
+    $ports | ForEach-Object { Write-Host ("- " + $_.DeviceID + " (" + $_.Description + ")") }
+    # Intentar encontrar un puerto que contenga 'Arduino' o 'USB Serial' en la descripción
+    $arduinoPort = $ports | Where-Object { $_.Description -match 'Arduino|USB Serial' } | Select-Object -First 1
+    if ($arduinoPort) {
+        $port = $arduinoPort.DeviceID
+        Write-Host "Puerto Arduino detectado: $port"
+    } else {
+        $port = Read-Host "No se detectó Arduino automáticamente. Ingresa el nombre del puerto COM (ejemplo: COM5)"
+    }
+} else {
+    Write-Host "No se detectó ningún puerto COM automáticamente."
+    $port = Read-Host "Ingresa el nombre del puerto COM donde está conectado el Arduino (ejemplo: COM5)"
+}
 
 if (-not $port) {
-    Write-Host "No se detectó Arduino conectado. Conéctalo por USB y vuelve a intentar."
+    Write-Host "No se seleccionó ningún puerto. Abortando."
     exit 1
 }
 
-Write-Host "Puerto detectado: $port"
-
 # Convertir COMx a formato Docker
-$dockerPort = "/dev/ttyS" + ($port -replace 'COM', '')
+$comNumber = ($port -replace 'COM', '')
+$dockerPort = "/dev/ttyS$comNumber"
 
 # Lanzar el contenedor
 Start-Process -NoNewWindow -FilePath "docker" -ArgumentList @(
     "run", "-it", "--rm",
+    "--privileged",
     "--device=$dockerPort",
     "-p", "8501:8501",
-    "arduino-temp-dashboard"
+    "arduino-local-iot"
 )
 
 # Esperar y abrir navegador
