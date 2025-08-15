@@ -125,3 +125,13 @@ T_celsius = T_kelvin - 273.15
 Coeficientes A, B, C deben ajustarse según el modelo del NTC.
 
 Desarrollado por Daniel Mardones
+
+## ⚠️ Aviso de derechos reservados
+
+Este repositorio está disponible públicamente únicamente para fines de demostración de la aplicación.
+
+Todo el código fuente, documentación y activos incluidos están protegidos por derechos de autor. No se permite su uso, copia, modificación ni distribución sin autorización explícita del autor.
+
+🔒 Este proyecto **no está licenciado** bajo ninguna licencia de software libre o de código abierto.
+
+📩 Si deseas colaborar, acceder al código con fines educativos o comerciales, contáctame directamente.
