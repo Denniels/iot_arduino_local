@@ -1,0 +1,36 @@
+Dashboard_IoT - Instrucciones de uso e instalación del driver CH340
+
+1) Qué hay en este paquete
+- Dashboard_IoT.exe  -> Ejecutable Windows standalone (copia de la app)
+- instructions.pdf   -> Este documento (instrucciones para ventas)
+
+2) Cómo ejecutar
+- Copia `Dashboard_IoT.exe` a la carpeta que prefieras en el PC de la demo.
+- Doble clic en `Dashboard_IoT.exe` para abrir la aplicación.
+
+3) Drivers necesarios (CH340)
+Por qué: muchos clones de Arduino (clones baratos) usan el chip CH340/CH341 para la interfaz USB-serie. Windows necesita un driver para asignar un puerto COM. Sin el driver la app no verá el Arduino.
+
+Enlace recomendado para descargar el driver CH340:
+https://sparks.gogo.co.nz/ch340.html?srsltid=AfmBOoq_0ddfkwxe6LtH_hxFROzhCRRxH6uvp7n-TejZI9Ye2NB-9_GY
+
+Pasos de instalación (Windows):
+1. Abrir el enlace y descargar la versión para Windows (ZIP o SETUP.EXE).
+2. Si es ZIP, extraer. Ejecutar `setup.exe` con clic derecho -> "Ejecutar como administrador".
+3. Seguir el asistente. Reiniciar si se solicita.
+4. Conectar Arduino. Abrir "Administrador de dispositivos" (Win+R -> devmgmt.msc) y verificar `USB-SERIAL CH340 (COMx)` en "Puertos (COM & LPT)".
+
+4) Verificación rápida
+- Si aparece `USB-SERIAL CH340 (COMx)` la instalación fue correcta.
+- Abre el ejecutable; la app debería mostrar "Arduino conectado en COMx".
+
+5) Troubleshooting
+- Si no aparece: probar otro cable USB/otro puerto.
+- Si aparece con advertencia amarilla: reinstalar con permisos admin.
+- Cerrar Arduino IDE u otros monitores serie si el puerto está en uso.
+
+6) Avisos
+- El EXE puede ser marcado por antivirus/SmartScreen en máquinas nuevas. Permitir ejecución temporalmente o pedir a IT que lo agregue a la whitelist.
+- No incluimos el instalador del driver dentro de este ZIP (se incluye enlace) para minimizar riesgos de licencias/antivirus.
+
+Contacto: equipo de desarrollo para soporte.

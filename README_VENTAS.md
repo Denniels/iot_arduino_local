@@ -32,7 +32,53 @@
 
 ---
 
-## 📱 **Características de la Aplicación**
+## � Descarga del ejecutable (recomendado para ventas)
+
+Si quieres la opción más simple para demostrar el proyecto sin instalar nada, pide al equipo de desarrollo que te entregue el archivo:
+
+```
+release\Dashboard_IoT.exe
+```
+
+Ese ejecutable ya contiene Python y todas las dependencias necesarias. Simplemente cópialo al PC de destino y ejecútalo con doble clic.
+
+Si prefieres un enlace HTTP para descarga (ej. Google Drive, servidor interno), sube `release\Dashboard_IoT.exe` y comparte el enlace con el equipo.
+
+---
+## 🔧 Drivers USB-Serial (CH340) — Instalación detallada
+
+Explicación breve: muchos clones de Arduino (especialmente los que usan el chip CH340/CH341) requieren un driver adicional en Windows para que el sistema operativo reconozca el dispositivo y le asigne un puerto COM. Sin este driver el ejecutable no podrá abrir el puerto serie y la aplicación mostrará "No se detectó ningún Arduino".
+
+Instalar el driver es un paso fuera del proyecto (actor OS-level). A continuación tienes instrucciones detalladas y el enlace oficial recomendado.
+
+Enlace de descarga del driver CH340 (proveído por el equipo técnico):
+
+https://sparks.gogo.co.nz/ch340.html?srsltid=AfmBOoq_0ddfkwxe6LtH_hxFROzhCRRxH6uvp7n-TejZI9Ye2NB-9_GY
+
+Pasos para instalar en Windows (detallado):
+1. Desde el PC de la demo, abre el navegador y navega al enlace anterior.
+2. Busca la sección "CH340 driver" o similar y descarga la versión para Windows (archivo .zip o .exe). Normalmente se llama algo como `CH341SER.zip` o `SETUP.EXE`.
+3. Si descargaste un ZIP, extrae su contenido a una carpeta.
+4. Ejecuta el instalador (`setup.exe`) con permisos de administrador: botón derecho → "Ejecutar como administrador".
+5. Sigue el asistente de instalación hasta completar.
+6. Conecta el Arduino por USB. Abre el "Administrador de dispositivos" (Device Manager) para verificar que aparece como `USB-SERIAL CH340` en la sección "Puertos (COM & LPT)" y que se le asignó un COMx.
+7. Si aparece una advertencia de Windows SmartScreen o antivirus, permite la ejecución temporalmente para completar la instalación.
+
+Verificación rápida:
+- En Windows, pulsa Win+R y escribe `devmgmt.msc` → Enter.
+- Expande "Puertos (COM & LPT)" y busca algo como `USB-SERIAL CH340 (COM3)`.
+- Abre `release\Dashboard_IoT.exe`; la app debería detectar automáticamente el puerto y mostrar el estado "Arduino conectado en COMx".
+
+Solución de problemas comunes:
+- Si no aparece en Device Manager: prueba otro cable USB o otro puerto USB del PC.
+- Si aparece con símbolo de advertencia: reinstala el driver con permisos administrativos.
+- Si el COM asignado ya está en uso: cierra otros programas que puedan estar usando el puerto (IDE de Arduino, PuTTY, etc.).
+
+Si necesitas que prepare un paquete ZIP con el ejecutable y un instalador del driver para distribución interna, indícamelo y lo preparo.
+
+---
+
+## �📱 **Características de la Aplicación**
 
 ### ✅ **Detección automática**
 - ✅ Encuentra el Arduino automáticamente

@@ -1,137 +1,89 @@
-📦 Proyecto: Monitor de Temperatura con Arduino + Streamlit + Docker
-🧩 Descripción
-Este proyecto permite visualizar en tiempo real la temperatura medida por un sensor NTC de 10 kΩ conectado a un Arduino. La lectura se realiza vía USB desde un PC con Windows, y se muestra en un dashboard local desarrollado con Streamlit. Todo el entorno corre dentro de un contenedor Docker, facilitando el despliegue para equipos comerciales sin conocimientos técnicos.
+# 🌡️ Dashboard de Temperatura NTC — Distribución para ventas
 
-🛠️ Hardware Requerido
-- Arduino UNO (o compatible)
-- Sensor NTC 10 kΩ
-- Resistencia fija 10 kΩ
-- Cable USB para conexión al PC
-
-Esquema de conexión:
-
-```
-5V --- [R 10kΩ] --- A0 --- [NTC 10kΩ] --- GND
-```
-
-📁 Estructura del Proyecto
-```
-arduino_iot_local/
-├── arduino/
-│   └── ntc_reader.ino           # Código Arduino para enviar datos por Serial
-├── app/
-│   └── dashboard.py             # App Streamlit que lee datos y muestra gráfico
-├── requirements.txt             # Dependencias Python para Streamlit
-├── Dockerfile                   # Imagen Docker con entorno Python + Streamlit
-├── .dockerignore
-├── README.md                    # Este archivo
-└── start.sh                     # Script de arranque para Windows
-```
-
-📋 Requisitos de Software
-
-🚀 Instrucciones de Instalación
-1. ✅ Requisitos previos
-📋 Requisitos de Software
-- Windows 10/11, MacOS o Linux
-- Docker Desktop instalado ([Descargar Docker Desktop](https://www.docker.com/products/docker-desktop/))
-- Arduino UNO (o compatible) conectado por USB
-
-> **Nota:** No necesitas instalar Python ni dependencias manualmente. Todo corre dentro de Docker.
-    - Windows 10/11
-    - Docker Desktop instalado
-    - Arduino conectado por USB
-2. 🔌 Cargar el código en el Arduino
-    - Abre el IDE de Arduino.
-2. 🔌 Carga el código en el Arduino
-    - Abre el IDE de Arduino.
-    - Carga el archivo `arduino/ntc_reader.ino`.
-    - Selecciona el puerto correcto y sube el sketch.
-
-3. 📦 Clona este repositorio
-```bash
-git clone https://github.com/tu-usuario/arduino-temp-dashboard.git
-cd arduino-temp-dashboard
-```
-
-4. 🐳 Construye la imagen Docker (solo la primera vez o tras cambios)
-```bash
-docker build -t arduino-temp-dashboard .
-```
-
-5. ▶️ Ejecuta la app automáticamente
-
-### Windows
-Ejecuta el script PowerShell (haz clic derecho y elige "Ejecutar con PowerShell"):
-```powershell
-./start.ps1
-```
-
-### Linux/MacOS
-Da permisos y ejecuta el script:
-```bash
-chmod +x start.sh
-./start.sh
-```
-
-El script detectará el puerto del Arduino, lanzará el contenedor y abrirá el navegador en http://localhost:8501 automáticamente.
-📊 Dashboard
-
-� **Automatización total:**
-No necesitas saber el puerto ni comandos de Docker. Solo ejecuta el script correspondiente y todo funcionará automáticamente.
-Una vez levantado el contenedor, abre tu navegador en:
-Al ejecutarse el script, se abrirá automáticamente tu navegador en:
-http://localhost:8501
-
-Verás un gráfico en tiempo real con la temperatura estimada a partir del sensor NTC.
-
-� Código Arduino (ntc_reader.ino)
+Este repositorio contiene la aplicación de escritorio para demostraciones comerciales. La opción recomendada para el equipo de ventas es usar el ejecutable standalone provisto en `release\Dashboard_IoT.exe`.
 
 ---
 
-## 🛟 Soporte y dudas
-Si tienes problemas con Docker Desktop o la detección del Arduino, revisa:
-- ¿Está Docker Desktop corriendo?
-- ¿El Arduino está bien conectado y el código cargado?
-- ¿Tienes permisos de administrador (Windows) o de acceso a dispositivos USB (Linux/Mac)?
+## Resumen rápido
 
-Para soporte técnico, contacta al equipo de desarrollo.
-```cpp
-void setup() {
-  Serial.begin(9600);
-}
+- Ejecutable recomendado: `release\Dashboard_IoT.exe` (no requiere instalar Python ni dependencias en el PC de destino).
+- Alternativa: `setup_portable.bat` + `run_simple.bat` para crear/usar un Python portable si no hay EXE.
 
-void loop() {
-  int adc = analogRead(A0);
-  Serial.println(adc);
-  delay(1000);
-}
-```
+---
 
+## 📥 Entrega / descarga para el equipo de ventas
 
-🐍 Código Python (dashboard.py)
-- Lee datos desde el puerto serial.
-- Convierte ADC a resistencia.
-- Aplica fórmula Steinhart-Hart para calcular temperatura.
-- Muestra gráfico en Streamlit.
+1. Entregar a ventas el archivo `release\Dashboard_IoT.exe` (comprimido en ZIP y compartir por email o Drive).
+2. El usuario final solo necesita copiar el EXE en su PC y ejecutarlo con doble clic.
 
-🧪 Fórmula de Temperatura
-Usamos la ecuación de Steinhart-Hart simplificada:
-R_ntc = R_fixed * (1023.0 / adc - 1)
-T_kelvin = 1 / (A + B * log(R_ntc) + C * pow(log(R_ntc), 3))
-T_celsius = T_kelvin - 273.15
+### Descargar paquete listo para ventas
 
+Puedes descargar el paquete preparado (EXE + instrucciones) directamente desde el repositorio:
 
-Coeficientes A, B, C deben ajustarse según el modelo del NTC.
+[Descargar package_for_sales.zip](release/package_for_sales.zip)
 
-Desarrollado por Daniel Mardones
+---
 
-## ⚠️ Aviso de derechos reservados
+## 🔌 Drivers USB‑Serial (CH340) — Instalación detallada (Windows)
 
-Este repositorio está disponible públicamente únicamente para fines de demostración de la aplicación.
+Por qué: muchos clones de Arduino usan el chip CH340/CH341 para la interfaz USB‑serie. En Windows es necesario instalar un driver para que el sistema operativo reconozca el dispositivo y le asigne un puerto COM. Sin este driver la aplicación no podrá abrir el puerto serie y no verá datos del Arduino.
 
-Todo el código fuente, documentación y activos incluidos están protegidos por derechos de autor. No se permite su uso, copia, modificación ni distribución sin autorización explícita del autor.
+> Enlace de descarga recomendado del driver CH340:
+>
+> https://sparks.gogo.co.nz/ch340.html?srsltid=AfmBOoq_0ddfkwxe6LtH_hxFROzhCRRxH6uvp7n-TejZI9Ye2NB-9_GY
 
-🔒 Este proyecto **no está licenciado** bajo ninguna licencia de software libre o de código abierto.
+### Pasos detallados de instalación en Windows
 
-📩 Si deseas colaborar, acceder al código con fines educativos o comerciales, contáctame directamente.
+1. Desde el PC de la demo, abre el navegador y navega al enlace anterior.
+2. Busca la sección "CH340 driver" o similar y descarga la versión para Windows (archivo .zip o instalador `.exe`). Normalmente se llama algo como `CH341SER.zip` o `SETUP.EXE`.
+3. Si descargaste un ZIP, extrae su contenido a una carpeta.
+4. Ejecuta el instalador (`setup.exe`) con permisos de administrador: clic derecho → "Ejecutar como administrador".
+5. Sigue el asistente de instalación hasta completar.
+6. Conecta el Arduino por USB.
+7. Abre el "Administrador de dispositivos" (Win+R → `devmgmt.msc`) y verifica que aparece `USB‑SERIAL CH340 (COMx)` bajo *Puertos (COM & LPT)*.
+8. Ejecuta `release\Dashboard_IoT.exe`.
+
+### Verificación rápida
+
+- En Device Manager debe aparecer `USB‑SERIAL CH340 (COMx)`.
+- La aplicación debe mostrar "Arduino conectado en COMx".
+
+### Solución de problemas comunes
+
+- Si no aparece: prueba otro cable USB o puerto USB del PC.
+- Si aparece con un triángulo amarillo: reinstala el driver con permisos administrativos.
+- Si el COM está en uso: cierra otros programas que puedan usarlo (IDE de Arduino, PuTTY, etc.).
+- Si Windows bloquea el instalador: permite la ejecución temporalmente o consulta a IT.
+
+---
+
+## ▶️ Cómo ejecutar
+
+- Opción recomendada (más simple): copiar `release\Dashboard_IoT.exe` al PC y ejecutar con doble clic.
+
+- Opción alternativa (si no hay EXE): ejecutar `setup_portable.bat` (crea una carpeta `python` con Python embeddable) y luego `run_simple.bat`.
+
+---
+
+## Archivos importantes
+
+- `release\Dashboard_IoT.exe` — Ejecutable standalone (entregar a ventas).
+- `run_simple.bat` — Lanzador que usa el EXE si existe o ejecuta el script con el Python portable.
+- `setup_portable.bat` — Crea un Python embeddable e instala dependencias (si no se usa el EXE).
+- `dashboard_tkinter.py` — Código fuente de la aplicación de escritorio (para desarrollo).
+
+---
+
+## Licencia y contacto
+
+Este proyecto NO cuenta con una licencia de código abierto. Se publica en este repositorio únicamente para compartirlo con un equipo específico de trabajo. Si un tercero externo desea acceder al código o colaborar, por favor solicítalo formalmente o contactame directamente.
+
+Contactos:
+
+- LinkedIn: [Daniel Andrés Mardones Sanhueza](https://www.linkedin.com/in/daniel-andres-mardones-sanhueza-27b73777)
+
+	[![](https://cdn.worldvectorlogo.com/logos/linkedin-icon-2.svg)](https://www.linkedin.com/in/daniel-andres-mardones-sanhueza-27b73777)
+
+- GitHub: [Denniels](https://github.com/Denniels)
+
+	[![](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png)](https://github.com/Denniels)
