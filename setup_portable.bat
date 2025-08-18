@@ -65,7 +65,11 @@ if exist "%CD%\python\python.exe" (
     set PIP_EXE=pip
 )
 
-"%PIP_EXE%" install pyserial matplotlib pandas numpy tkinter
+"%PIP_EXE%" install pyserial matplotlib pandas numpy
+
+echo.
+echo Nota: 'tkinter' no se instala por pip; suele venir incluido con CPython/GTK builds en Windows.
+echo Si tu Python embeddable no incluye tkinter, usa el instalador oficial de Python o pide el .exe al equipo de desarrollo.
 
 echo.
 echo ✅ ¡Instalacion completada!

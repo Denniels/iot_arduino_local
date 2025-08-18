@@ -23,6 +23,13 @@ echo 🚀 Iniciando dashboard...
 echo 📱 Se abrirá una ventana con la aplicación
 echo.
 
+REM Si existe release\Dashboard_IoT.exe, preferirlo (no requiere Python)
+if exist "%~dp0release\Dashboard_IoT.exe" (
+    echo ▶️ Ejecutando release\Dashboard_IoT.exe
+    start "" "%~dp0release\Dashboard_IoT.exe"
+    goto :eof
+)
+
 "%PYTHON_EXE%" "%~dp0dashboard_tkinter.py"
 
 if %errorlevel% neq 0 (

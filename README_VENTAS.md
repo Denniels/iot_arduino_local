@@ -4,16 +4,19 @@
 
 ---
 
+> Recomendado para ventas: usa el ejecutable ya compilado `release\Dashboard_IoT.exe` si el equipo de desarrollo te lo entrega — así no hace falta instalar Python ni dependencias.
+
 ## 📦 **Para el Equipo de Ventas - INSTRUCCIONES SIMPLES**
 
 ### 🚀 **Configuración inicial (Solo una vez)**
 1. Descargar y descomprimir toda la carpeta del proyecto
-2. Hacer doble clic en: **`setup_portable.bat`**
-3. Esperar a que termine la instalación automática
+2. (Recomendado) Si existe `release\Dashboard_IoT.exe`, simplemente ejecutar ese archivo. No se necesita instalar Python.
+3. Si no hay ejecutable, hacer doble clic en: **`setup_portable.bat`** para instalar una copia portable de Python en la carpeta `python`.
+4. Esperar a que termine la instalación automática
 
 ### ▶️ **Usar la aplicación (Cada demo)**
 1. Conectar el Arduino al PC
-2. Hacer doble clic en: **`run_simple.bat`**
+2. Hacer doble clic en: **`run_simple.bat`** (o ejecutar `release\Dashboard_IoT.exe` si está disponible)
 3. ¡Se abre la aplicación de escritorio automáticamente!
 
 ---
